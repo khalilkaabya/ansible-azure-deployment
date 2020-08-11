@@ -37,16 +37,16 @@
     - name: Include Azure Environment (azure_westeurope or azure_easteurope)
       include_vars: files/{{ location_name }}.yml
 
-    - name: "Create resource group: {{ resourcegrp }} in location: {{ location }}"
+    - name: "Create resource group: {{ resourcegrp1 }} in location: {{ location }}"
       azure_rm_resourcegroup:
-        name: "{{ resourcegrp }}"
+        name: "{{ resourcegrp1 }}"
         location: "{{ location }}" 
         state: "{{ state_toggle }}"
 
-    - name: "Create security group: {{ securitygrp }}"
+    - name: "Create security group: {{ securitygrp1 }}"
       azure_rm_securitygroup:
-        resource_group: "{{ resourcegrp }}"
-        name: "{{ securitygrp }}"
+        resource_group: "{{ resourcegrp1 }}"
+        name: "{{ securitygrp1 }}"
         rules:
           - name: SSH
             protocol: Tcp
@@ -62,25 +62,25 @@
             direction: Inbound
         state: "{{ state_toggle }}"
 
-    - name: "Create virtual network: {{ virtualnetwork }}"
+    - name: "Create virtual network: {{ virtualnetwork1 }}"
       azure_rm_virtualnetwork:
-        resource_group: "{{ resourcegrp }}"
-        name: "{{ virtualnetwork }}"
+        resource_group: "{{ resourcegrp1 }}"
+        name: "{{ virtualnetwork1 }}"
         address_prefixes: "{{ virt_address_prefixes }}"
         state: "{{ state_toggle }}"
 
     - name: "Add subnet: {{ subnet }}"
       azure_rm_subnet:
-        resource_group: "{{ resourcegrp }}"
+        resource_group: "{{ resourcegrp1 }}"
         name: "{{ subnet }}"
         address_prefix: "{{ sub_address_prefix }}"
-        virtual_network: "{{ virtualnetwork }}"
+        virtual_network: "{{ virtualnetwork1 }}"
         state: "{{ state_toggle }}"
 
     - name: Create storage account
       azure_rm_storageaccount:
-        resource_group: "{{ resourcegrp }}"
-        name: "{{ storage_account }}"
+        resource_group: "{{ resourcegrp1 }}"
+        name: "{{ storage_account1 }}"
         account_type: "{{ storage_account_type }}"
         state: "{{ state_toggle }}" 
 
