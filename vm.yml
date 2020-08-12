@@ -54,7 +54,7 @@
       ssh_password_enabled: false
       ssh_public_keys:
         - path: /home/khalil/tt.pub
-          key_data: <your-key-data>
+          key_data: ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAACAQDoalEOmRoxWFsXeblvV1YLp2PoNRD7ky0CN8iEzB8CjO9t89UdmVmhqx4BM9PZ0/HrtUjdSpG/17BP4JO3TYUmBtZkQHRO5+6dU4r8rNdoOIIw90LTOnSnME5lk/83QPQDXGnn+MXXrj9/yv2dDR9GnzebOaf687QZ27H9jg4wQW4wZLIXt9v1gG+QTuHEXUCZj7bWLFWeQnroCbLTaWQeVVD7S037sJ8uRcpZxdjUnEH1T0PQ2zJK+7dvCRPbYZ2P5SaCBiv1xKj0SlTmEEryrwI5ThZ7p5pQ5oLpsJ7vQ+vpJhCPIoo2wR/biOupSglFyR5+LaLSpuMKqXu55iTOhWvZUgThfWoHk2jTSylw6JP4XjmdFEKEPsMLPNb/faNPJT8/MMRDNnFAzHY1FZuy9kayyZK+/L4LtKc4xUJrm7dYP2FLQiPe/dQRJR6JgmVJoxBNuw+WBrLf9V0A1Hgsfsu+LEIBTRuOvonB+cFgaDKJ+LXOLSOGq53NyiANvXy0Pe3C0TV71MYfggRv9VXCZOa74JFIaX7ZmtL6ywPEH0EmFRxss+fabYu+1TkTB/MtSOyON8PogNVe3fpz3SB9JU6TTTzqK3FFZt5a53ER2JgrOgX5sIsRfNGTOwJTsr009fBvaYf1/6QnGVa1N9I0ofNxv/s5yrl9HUn6SLxlyQ== khalil@cc-9e62863d-7cb8747d4f-xkbn2
       network_interfaces: myNIC
       image:
         offer: CentOS
