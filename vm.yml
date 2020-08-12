@@ -9,9 +9,6 @@
       vm_size: Standard_DS1_v2
       admin_username: oaker
       ssh_password_enabled: false
-      ssh_public_keys:
-        - path: /home/oaker/.ssh/authorized_keys
-          key_data: "ssh-rsa <data>"
       image:
         offer: CentOS
         publisher: OpenLogic
