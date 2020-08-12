@@ -2,13 +2,60 @@
   hosts: localhost
   connection: local
   tasks:
+  - name: Create resource group
+    azure_rm_resourcegroup:
+      name: myResourceGroup
+      location: eastus
+  - name: Create virtual network
+    azure_rm_virtualnetwork:
+      resource_group: myResourceGroup
+      name: myVnet
+      address_prefixes: "10.0.0.0/16"
+  - name: Add subnet
+    azure_rm_subnet:
+      resource_group: myResourceGroup
+      name: mySubnet
+      address_prefix: "10.0.1.0/24"
+      virtual_network: myVnet
+  - name: Create public IP address
+    azure_rm_publicipaddress:
+      resource_group: myResourceGroup
+      allocation_method: Static
+      name: myPublicIP
+    register: output_ip_address
+  - name: Dump public IP for VM which will be created
+    debug:
+      msg: "The public IP is {{ output_ip_address.state.ip_address }}."
+  - name: Create Network Security Group that allows SSH
+    azure_rm_securitygroup:
+      resource_group: myResourceGroup
+      name: myNetworkSecurityGroup
+      rules:
+        - name: SSH
+          protocol: Tcp
+          destination_port_range: 22
+          access: Allow
+          priority: 1001
+          direction: Inbound
+  - name: Create virtual network interface card
+    azure_rm_networkinterface:
+      resource_group: myResourceGroup
+      name: myNIC
+      virtual_network: myVnet
+      subnet: mySubnet
+      public_ip_name: myPublicIP
+      security_group: myNetworkSecurityGroup
   - name: Create VM
     azure_rm_virtualmachine:
       resource_group: myResourceGroup
-      name: myVM
+      name: myVM2
       vm_size: Standard_DS1_v2
-      admin_username: oaker
+      admin_username: azureuser
       ssh_password_enabled: false
+      ssh_public_keys:
+        - path: /home/azureuser/.ssh/authorized_keys
+          key_data: ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAACAQDoalEOmRoxWFsXeblvV1YLp2PoNRD7ky0CN8iEzB8CjO9t89UdmVmhqx4BM9PZ0/HrtUjdSpG/17BP4JO3TYUmBtZkQHRO5+6dU4r8rNdoOIIw90LTOnSnME5lk/83QPQDXGnn+MXXrj9/yv2dDR9GnzebOaf687QZ27H9jg4wQW4wZLIXt9v1gG+QTuHEXUCZj7bWLFWeQnroCbLTaWQeVVD7S037sJ8uRcpZxdjUnEH1T0PQ2zJK+7dvCRPbYZ2P5SaCBiv1xKj0SlTmEEryrwI5ThZ7p5pQ5oLpsJ7vQ+vpJhCPIoo2wR/biOupSglFyR5+LaLSpuMKqXu55iTOhWvZUgThfWoHk2jTSylw6JP4XjmdFEKEPsMLPNb/faNPJT8/MMRDNnFAzHY1FZuy9kayyZK+/L4LtKc4xUJrm7dYP2FLQiPe/dQRJR6JgmVJoxBNuw+WBrLf9V0A1Hgsfsu+LEIBTRuOvonB+cFgaDKJ+LXOLSOGq53NyiANvXy0Pe3C0TV71MYfggRv9VXCZOa74JFIaX7ZmtL6ywPEH0EmFRxss+fabYu+1TkTB/MtSOyON8PogNVe3fpz3SB9JU6TTTzqK3FFZt5a53ER2JgrOgX5sIsRfNGTOwJTsr009fBvaYf1/6QnGVa1N9I0ofNxv/s5yrl9HUn6SLxlyQ== khalil@cc-9e62863d-7cb8747d4f-xkbn2
+      network_interfaces: myNIC
       image:
         offer: CentOS
         publisher: OpenLogic
